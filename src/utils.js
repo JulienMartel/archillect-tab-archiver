@@ -22,10 +22,11 @@ export const getArchillectImage = async (page, id) => {
       els.map((a) => a.href)
     );
 
-    console.log({ id, src, w, h, sources });
-    // save to db
-
     spinner.succeed("#" + id);
+
+    // save to db
+    console.log({ id, src, w, h, sources });
+
     return src;
   } catch (e) {
     spinner.fail("failed to scrape #" + id);
