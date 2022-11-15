@@ -6,9 +6,6 @@ await client.connect();
 
 const db = client.db("images");
 
-process.on("exit", async () => {
-  await client.close();
-  process.exit();
-});
+process.on("exit", client.close);
 
 export { db };
