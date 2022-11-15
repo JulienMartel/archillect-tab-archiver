@@ -4,9 +4,12 @@ export const getArchillectImage = async (page, id) => {
   const spinner = ora("scraping #" + id).start();
 
   try {
+    spinner.color = "yellow";
     await page.goto("https://archillect.com/" + id, {
       waitUntil: "load",
     });
+
+    spinner.color = "green";
 
     await page.waitForSelector("img#ii");
     const { src, w, h } = await page.$eval("img#ii", (el) => ({
@@ -20,6 +23,7 @@ export const getArchillectImage = async (page, id) => {
     );
 
     console.log({ id, src, w, h, sources });
+    // save to db
 
     spinner.succeed("#" + id);
     return src;

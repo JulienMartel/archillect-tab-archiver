@@ -3,12 +3,12 @@ import { getArchillectImage } from "./utils.js";
 
 const { browser, page } = await usePuppeteer();
 
-const max_count = 10;
+const max_count = 100;
 
 let c = 1;
 while (c <= max_count) {
-  const src = await getArchillectImage(page, c);
-  // console.log({ id: c, src });
+  await getArchillectImage(page, c);
+
   c++;
 }
 
