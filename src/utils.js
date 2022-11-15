@@ -1,8 +1,8 @@
 import ora from "ora";
 import { db } from "./mongo.js";
 
-export const getArchillectImage = async (page, id, max_count) => {
-  const spinner = ora(`scraping #${id}/${max_count}` + id).start();
+export const getArchillectImage = async (page, id, end) => {
+  const spinner = ora(`scraping #${id}/${end}`).start();
 
   try {
     await page.goto("https://archillect.com/" + id, {
@@ -21,7 +21,6 @@ export const getArchillectImage = async (page, id, max_count) => {
     );
 
     await db.collection("data").insertOne({ _id: id, src, w, h, sources });
-    spinner.text = "saving #" + id;
 
     return spinner.clear();
   } catch (e) {
