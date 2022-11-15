@@ -1,4 +1,4 @@
-import { usePuppeteer } from "./use-puppeteer";
+import { usePuppeteer } from "./use-puppeteer.js";
 
 const { browser, page } = await usePuppeteer();
 
