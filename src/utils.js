@@ -24,9 +24,11 @@ export const getArchillectImage = async (page, id) => {
     );
 
     await db.collection("data").insertOne({ _id: id, src, w, h, sources });
+    spinner.text = "saving #" + id;
 
     return spinner.succeed("#" + id);
   } catch (e) {
     spinner.fail("failed to get #" + id);
+    console.error(e);
   }
 };
