@@ -1,5 +1,5 @@
 import { usePuppeteer } from "./use-puppeteer.js";
-import { getArchillectImage } from "./utils";
+import { getArchillectImage } from "./utils.js";
 
 const { browser, page } = await usePuppeteer();
 
