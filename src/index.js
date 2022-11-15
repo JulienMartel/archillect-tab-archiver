@@ -26,4 +26,5 @@ const scrape = async (from, max) => {
   await browser.close();
 };
 
-await scrape(202, 98);
+// make it so that i read where to start it from
+await scrape(301, 99);
