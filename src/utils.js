@@ -1,4 +1,5 @@
 import ora from "ora";
+import { db } from "./mongo.js";
 
 export const getArchillectImage = async (page, id) => {
   const spinner = ora("scraping #" + id).start();
@@ -22,13 +23,10 @@ export const getArchillectImage = async (page, id) => {
       els.map((a) => a.href)
     );
 
-    spinner.succeed("#" + id);
+    await db.collection("data").insertOne({ _id: id, src, w, h, sources });
 
-    // save to db
-    console.log({ id, src, w, h, sources });
-
-    return src;
+    return spinner.succeed("#" + id);
   } catch (e) {
-    spinner.fail("failed to scrape #" + id);
+    spinner.fail("failed to get #" + id);
   }
 };
