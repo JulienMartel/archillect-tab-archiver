@@ -3,6 +3,8 @@ import { db } from "./mongo.js";
 import { usePuppeteer } from "./use-puppeteer.js";
 import { getArchillectImage } from "./utils.js";
 
+const sleep = (ms) => new Promise((resolve) => setTimeout(resolve, ms));
+
 const scrape = async (max) => {
   const spinner = ora("loading browser").start(); // `scraping #${id}/${end}`
 
@@ -22,6 +24,7 @@ const scrape = async (max) => {
   while (c <= end) {
     try {
       spinner.text = `scraping #${c}/${end}`;
+      sleep(1000);
       await getArchillectImage(page, c);
     } catch (error) {
       spinner.fail("failed to get #" + c);
