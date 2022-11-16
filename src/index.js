@@ -32,6 +32,7 @@ const scrape = async (max) => {
     }
   }
 
+  spinner.succeed("done");
   return await browser.close();
 };
 
