@@ -8,7 +8,7 @@ const scrape = async (from, max) => {
 
   const { browser, page } = await usePuppeteer();
 
-  const x = db.collection("data").find().sort({ _id: -1 }).limit(1);
+  const x = db.collection("data").find().sort({ _id: -1 }).limit(1).toArray();
   console.log(x);
 
   // const end = max + from;
