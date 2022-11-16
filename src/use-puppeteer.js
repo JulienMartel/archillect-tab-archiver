@@ -88,7 +88,7 @@ const blocked_resources = [
 export const usePuppeteer = async (testing = false) => {
   const browser = await puppeteer.launch({
     headless: !testing,
-    args: [...minimal_args, "--proxy-server=https://167.235.50.152:5566"],
+    args: [...minimal_args, "--proxy-server=socks5://103.243.114.206:8080"],
     defaultViewport: testing ? undefined : { width: 1920, height: 1080 },
     executablePath: executablePath(),
   });
