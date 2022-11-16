@@ -40,5 +40,5 @@ const scrape = async (max) => {
   return await browser.close();
 };
 
-await scrape(10000);
+await scrape(50000);
 process.exit();
