@@ -28,8 +28,7 @@ const scrape = async (max) => {
 
       await getArchillectImage(page, c);
     } catch (error) {
-      spinner.fail("failed to get #" + c);
-      console.error(error);
+      spinner.fail(`failed to get #${c}: ${error.message || error}`);
       spinner.start();
     } finally {
       c++;
