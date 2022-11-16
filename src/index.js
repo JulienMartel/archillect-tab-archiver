@@ -36,7 +36,5 @@ const scrape = async (max) => {
   return await browser.close();
 };
 
-// make it so that i read where to start it from
-await scrape(10);
-// process.exit();
-export {};
+await scrape(100);
+process.exit();
