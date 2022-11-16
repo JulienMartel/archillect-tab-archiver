@@ -15,7 +15,7 @@ const scrape = async (max) => {
     .limit(1)
     .toArray();
 
-  const from = lastEntry._id;
+  const from = Number(lastEntry._id);
   const end = max + from;
 
   let c = from;
