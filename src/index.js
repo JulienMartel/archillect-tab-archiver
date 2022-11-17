@@ -2,11 +2,12 @@ import ora from "ora";
 import { db } from "./mongo.js";
 import { usePuppeteer } from "./use-puppeteer.js";
 import { getArchillectImage } from "./utils.js";
+import fs from "fs/promises";
 
 const sleep = (ms) => new Promise((resolve) => setTimeout(resolve, ms));
 
 const scrape = async (max) => {
-  const spinner = ora("loading browser").start(); // `scraping #${id}/${end}`
+  const spinner = ora("loading browser").start();
 
   const { browser, page } = await usePuppeteer();
 
@@ -24,12 +25,16 @@ const scrape = async (max) => {
   while (c <= end) {
     try {
       spinner.text = `scraping #${c}/${end}`;
-      await sleep(1500);
+      await sleep(1300);
 
       await getArchillectImage(page, c);
     } catch (error) {
       spinner.fail(`failed to get #${c}: ${error.message || error}`);
       spinner.start();
+
+      await fs
+        .appendFile("./../missing.txt", c.toString() + "\n")
+        .catch(console.error);
     } finally {
       c++;
     }
