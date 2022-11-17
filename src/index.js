@@ -24,7 +24,7 @@ const scrape = async (max) => {
   while (c <= end) {
     try {
       spinner.text = `scraping #${c}/${end}`;
-      await sleep(1000);
+      await sleep(1500);
 
       await getArchillectImage(page, c);
     } catch (error) {
