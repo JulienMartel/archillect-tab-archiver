@@ -18,14 +18,14 @@ const scrape = async (max) => {
     .limit(1)
     .toArray();
 
-  const from = Number(lastEntry._id);
+  const from = Number(lastEntry._id) + 1;
   const end = max + from;
 
   let c = from;
   while (c <= end) {
     try {
       spinner.text = `scraping #${c}/${end}`;
-      await sleep(1300);
+      await sleep(1400);
 
       await getArchillectImage(page, c);
     } catch (error) {
