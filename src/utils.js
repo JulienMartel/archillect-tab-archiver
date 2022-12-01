@@ -1,6 +1,6 @@
 import { db } from "./mongo.js";
 
-export const getArchillectImage = async (page, id, spinner) => {
+export const getArchillectImage = async (page, id) => {
   await page.goto("https://archillect.com/" + id, {
     waitUntil: "load",
   });
