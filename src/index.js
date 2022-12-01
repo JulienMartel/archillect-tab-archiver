@@ -37,5 +37,5 @@ const readFileLines = async (filename) =>
 const list = await readFileLines("log.txt");
 // console.log(list);
 
-await scrape(50000);
+await scrape(list);
 process.exit();
