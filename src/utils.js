@@ -1,5 +1,7 @@
 import { db } from "./mongo.js";
 
+export const sleep = (ms) => new Promise((resolve) => setTimeout(resolve, ms));
+
 export const getArchillectImage = async (page, id) => {
   await page.goto("https://archillect.com/" + id, {
     waitUntil: "load",

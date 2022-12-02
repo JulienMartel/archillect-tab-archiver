@@ -1,41 +1,45 @@
 import ora from "ora";
 import { usePuppeteer } from "./use-puppeteer.js";
-import { getArchillectImage } from "./utils.js";
+import { getArchillectImage, sleep } from "./utils.js";
 import fs from "node:fs/promises";
 
-const sleep = (ms) => new Promise((resolve) => setTimeout(resolve, ms));
+const spinner = ora("loading browser").start();
 
-const scrape = async (list) => {
-  const spinner = ora("loading browser").start();
+const { browser, page } = await usePuppeteer();
 
-  const { browser, page } = await usePuppeteer();
+// 1. find most recent post id
+// 2. check if its in db
+// 3. if not, scrape it and add it to db
+//  3a. repeat with post id - 1
+// 4. if so, stop
 
-  let c = 0;
-  let max = list.length;
+await page.goto("https://archillect.com/", {
+  waitUntil: "load",
+});
 
-  while (c < max) {
-    try {
-      spinner.text = `scraping #${list[c]}`;
-      await sleep(1400);
+await page.waitForSelector("section#posts", { timeout: 10000 });
 
-      await getArchillectImage(page, list[c]);
-    } catch (error) {
-      spinner.fail(`failed to get #${list[c]}: ${error.message || error}`);
-      spinner.start();
-    } finally {
-      c++;
-    }
-  }
+const recentPostId = await page.$eval("section#posts > div:first-child", (el) =>
+  el.href.split("/").pop()
+);
 
-  spinner.succeed("done");
-  return await browser.close();
-};
+console.log(recentPostId);
 
-const readFileLines = async (filename) =>
-  (await fs.readFile(filename)).toString().split("\n");
+// while (c < max) {
+//   try {
+//     spinner.text = `scraping #${list[c]}`;
+//     await sleep(1400);
 
-const list = await readFileLines("log.txt");
-// console.log(list);
+//     await getArchillectImage(page, list[c]);
+//   } catch (error) {
+//     spinner.fail(`failed to get #${list[c]}: ${error.message || error}`);
+//     spinner.start();
+//   } finally {
+//     c++;
+//   }
+// }
 
-await scrape(list);
+spinner.succeed("done");
+await browser.close();
+
 process.exit();
