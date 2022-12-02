@@ -5,7 +5,7 @@ export const getArchillectImage = async (page, id) => {
     waitUntil: "load",
   });
 
-  await page.waitForSelector("img#ii");
+  await page.waitForSelector("img#ii", { timeout: 10000 });
   const { src, w, h } = await page.$eval("img#ii", (el) => ({
     src: el.src,
     w: el.naturalWidth,
