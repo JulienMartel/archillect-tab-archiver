@@ -1,36 +1,33 @@
-const { client } = require("./lib/mongodb");
-const fs = require("fs");
+// used to get all the archillect posts that errored out
 
-client.connect().then(async (client) => {
-  const ora = (await import("ora")).default;
-  const spinner = ora().start();
+import { db } from "./src/mongo.js";
+import fs from "node:fs/promises";
+import ora from "ora";
 
-  const collection = client.db("images").collection("data");
+const spinner = ora("starting").start();
 
-  const total = await collection.countDocuments();
+const collection = db.collection("data");
 
-  const lastOneChecked = 30000;
-  const amountToCheck = 10000;
+const lastOneChecked = 0;
+const amountToCheck = 50000;
 
-  const max = lastOneChecked + amountToCheck;
+const max = lastOneChecked + amountToCheck;
 
-  let c = lastOneChecked;
-  while (c <= max) {
-    spinner.text = `checking ${c} / ${max} (total: ${total})`;
-    const [post] = await collection.find({ _id: c }).toArray();
+let c = lastOneChecked;
+while (c <= max) {
+  spinner.text = `checking ${c} / ${max}`;
+  const [post] = await collection.find({ _id: c }).toArray();
 
-    if (!post) {
-      spinner.fail(`POST ${c} NOT FOUND`);
-      spinner.start();
+  if (!post) {
+    spinner.fail(`POST ${c} NOT FOUND`);
 
-      fs.appendFile("log.txt", c.toString() + "\n", (err) => {
-        if (err) throw err;
-      });
-    }
+    await fs.appendFile("log.txt", c.toString() + "\n");
 
-    c++;
+    spinner.start();
   }
 
-  spinner.stop();
-  return client.close();
-});
+  c++;
+}
+
+spinner.succeed("done");
+process.exit();
