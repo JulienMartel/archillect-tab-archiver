@@ -1,16 +1,12 @@
 import ora from "ora";
+import { db } from "./mongo.js";
 import { usePuppeteer } from "./use-puppeteer.js";
 import { getArchillectImage, sleep } from "./utils.js";
 
+const collection = db.collection("data");
+
 const spinner = ora("loading browser").start();
-
 const { browser, page } = await usePuppeteer();
-
-// 1. find most recent post id
-// 2. check if its in db
-// 3. if not, scrape it and add it to db
-//  3a. repeat with post id - 1
-// 4. if so, stop
 
 await page.goto("https://archillect.com/", {
   waitUntil: "load",
@@ -19,24 +15,23 @@ await page.goto("https://archillect.com/", {
 await page.waitForSelector("section#posts", { timeout: 10000 });
 
 const recentPostId = await page.$eval("section#posts > a:first-child", (el) =>
+  // @ts-ignore
   el.href.split("/").pop()
 );
 
-console.log(recentPostId);
+let c = 0;
+while (true) {
+  const id = recentPostId - c;
+  spinner.text = `checking ${id}`;
 
-// while (c < max) {
-//   try {
-//     spinner.text = `scraping #${list[c]}`;
-//     await sleep(1400);
+  const [post] = await collection.find({ _id: id }).toArray();
+  if (post) break;
 
-//     await getArchillectImage(page, list[c]);
-//   } catch (error) {
-//     spinner.fail(`failed to get #${list[c]}: ${error.message || error}`);
-//     spinner.start();
-//   } finally {
-//     c++;
-//   }
-// }
+  await getArchillectImage(page, id);
+  await sleep(1400);
+
+  c++;
+}
 
 spinner.succeed("done");
 await browser.close();
