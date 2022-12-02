@@ -1,7 +1,6 @@
 import ora from "ora";
 import { usePuppeteer } from "./use-puppeteer.js";
 import { getArchillectImage, sleep } from "./utils.js";
-import fs from "node:fs/promises";
 
 const spinner = ora("loading browser").start();
 
@@ -19,7 +18,7 @@ await page.goto("https://archillect.com/", {
 
 await page.waitForSelector("section#posts", { timeout: 10000 });
 
-const recentPostId = await page.$eval("section#posts > div:first-child", (el) =>
+const recentPostId = await page.$eval("section#posts > a:first-child", (el) =>
   el.href.split("/").pop()
 );
 
