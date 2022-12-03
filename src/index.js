@@ -1,12 +1,10 @@
-console.log("starting");
-
 import { collection } from "./mongo.js";
 import { usePuppeteer } from "./use-puppeteer.js";
 import { getArchillectImage, sleep } from "./utils.js";
 
-const { browser, page } = await usePuppeteer();
+console.log("starting");
 
-console.log("test");
+const { browser, page } = await usePuppeteer();
 
 await page.goto("https://archillect.com/", {
   waitUntil: "load",
@@ -19,19 +17,20 @@ const recentPostId = await page.$eval("section#posts > a:first-child", (el) =>
   el.href.split("/").pop()
 );
 
-let c = 0;
-while (true) {
-  const id = recentPostId - c;
-  console.log(`checking ${id}`);
+console.log(recentPostId);
+// let c = 0;
+// while (true) {
+//   const id = recentPostId - c;
+//   console.log(`checking ${id}`);
 
-  const [post] = await collection.find({ postId: id }).toArray();
-  if (post) break;
+//   const [post] = await collection.find({ postId: id }).toArray();
+//   if (post) break;
 
-  await getArchillectImage(page, id);
-  await sleep(1400);
+//   await getArchillectImage(page, id);
+//   await sleep(1400);
 
-  c++;
-}
+//   c++;
+// }
 
 console.log("DONE");
 await browser.close();

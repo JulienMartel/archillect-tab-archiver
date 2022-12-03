@@ -1,7 +1,7 @@
 import { MongoClient } from "mongodb";
 import "dotenv/config.js";
 
-console.log(process.env.MONGODB_URI);
+console.log("mongo url: " + process.env.MONGODB_URI);
 
 const client = new MongoClient(process.env.MONGODB_URI || "");
 await client.connect();
