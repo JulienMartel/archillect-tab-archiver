@@ -1,4 +1,4 @@
-import { db } from "./mongo.js";
+import { collection } from "./mongo.js";
 
 export const sleep = (ms) => new Promise((resolve) => setTimeout(resolve, ms));
 
@@ -18,7 +18,7 @@ export const getArchillectImage = async (page, id) => {
     els.map((a) => a.href)
   );
 
-  await db.collection("archive").insertOne({ src, postId: id, w, h, sources });
+  await collection.insertOne({ src, postId: id, w, h, sources });
 
   return null;
 };

@@ -4,6 +4,6 @@ import "dotenv/config.js";
 const client = new MongoClient(process.env.MONGODB_URI || "");
 await client.connect();
 
-const db = client.db("images");
+const collection = client.db("images").collection("archive");
 
-export { db };
+export { collection };
