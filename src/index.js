@@ -1,9 +1,7 @@
-import ora from "ora";
 import { collection } from "./mongo.js";
 import { usePuppeteer } from "./use-puppeteer.js";
 import { getArchillectImage, sleep } from "./utils.js";
 
-const spinner = ora("loading browser").start();
 const { browser, page } = await usePuppeteer();
 
 await page.goto("https://archillect.com/", {
@@ -20,7 +18,7 @@ const recentPostId = await page.$eval("section#posts > a:first-child", (el) =>
 let c = 0;
 while (true) {
   const id = recentPostId - c;
-  spinner.text = `checking ${id}`;
+  console.log(`checking ${id}`);
 
   const [post] = await collection.find({ postId: id }).toArray();
   if (post) break;
@@ -31,7 +29,7 @@ while (true) {
   c++;
 }
 
-spinner.succeed("done");
+console.log("DONE");
 await browser.close();
 
 process.exit();
