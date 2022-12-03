@@ -2,7 +2,7 @@ import { collection } from "./mongo.js";
 import { usePuppeteer } from "./use-puppeteer.js";
 import { getArchillectImage, sleep } from "./utils.js";
 
-console.log("starting");
+console.log("⚙ starting");
 
 const { browser, page } = await usePuppeteer();
 
@@ -17,22 +17,21 @@ const recentPostId = await page.$eval("section#posts > a:first-child", (el) =>
   el.href.split("/").pop()
 );
 
-console.log(recentPostId);
-// let c = 0;
-// while (true) {
-//   const id = recentPostId - c;
-//   console.log(`checking ${id}`);
+let c = 0;
+while (true) {
+  const id = recentPostId - c;
+  console.log(`checking ${id}`);
 
-//   const [post] = await collection.find({ postId: id }).toArray();
-//   if (post) break;
+  const [post] = await collection.find({ postId: id }).toArray();
+  if (post) break;
 
-//   await getArchillectImage(page, id);
-//   await sleep(1400);
+  await getArchillectImage(page, id);
+  await sleep(1400);
 
-//   c++;
-// }
+  c++;
+}
 
-console.log("DONE");
+console.log("✔ done\n");
 await browser.close();
 
 process.exit();
