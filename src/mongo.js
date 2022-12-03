@@ -1,5 +1,6 @@
 import { MongoClient } from "mongodb";
-import "dotenv/config.js";
+import * as dotenv from "dotenv";
+dotenv.config({ path: __dirname + "/../.env" });
 
 console.log("mongo url: " + process.env.MONGODB_URI);
 
