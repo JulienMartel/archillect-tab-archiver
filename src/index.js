@@ -22,7 +22,7 @@ while (true) {
   const id = recentPostId - c;
   spinner.text = `checking ${id}`;
 
-  const [post] = await collection.find({ _id: id }).toArray();
+  const [post] = await collection.find({ postId: id }).toArray();
   if (post) break;
 
   await getArchillectImage(page, id);
