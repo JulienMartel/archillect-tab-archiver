@@ -18,7 +18,7 @@ export const getArchillectImage = async (page, id) => {
     els.map((a) => a.href)
   );
 
-  await db.collection("data").insertOne({ _id: id, src, w, h, sources });
+  await db.collection("archive").insertOne({ src, postId: id, w, h, sources });
 
   return null;
 };

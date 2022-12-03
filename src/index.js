@@ -3,7 +3,7 @@ import { db } from "./mongo.js";
 import { usePuppeteer } from "./use-puppeteer.js";
 import { getArchillectImage, sleep } from "./utils.js";
 
-const collection = db.collection("data");
+const collection = db.collection("archive");
 
 const spinner = ora("loading browser").start();
 const { browser, page } = await usePuppeteer();
