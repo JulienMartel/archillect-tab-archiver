@@ -1,8 +1,12 @@
+console.log("starting");
+
 import { collection } from "./mongo.js";
 import { usePuppeteer } from "./use-puppeteer.js";
 import { getArchillectImage, sleep } from "./utils.js";
 
 const { browser, page } = await usePuppeteer();
+
+console.log("test");
 
 await page.goto("https://archillect.com/", {
   waitUntil: "load",
